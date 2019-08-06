@@ -10,18 +10,21 @@ In order to use the provider you need to obtain the necessary token. It seems th
 
 [https://dash.cloudflare.com/GUID/profile/api-tokens](https://dash.cloudflare.com/GUID/profile/api-tokens)
 
+## Terraform Enterprise Remote Backend
+
+This example utilises `app.terraform.io` as a backend, if you require something else then modify `backend.tf` to suit your setup. 
+
 - - - -
 
 # Usage
 
 ```
-$ make
-apply                          Have terraform do the things. This will cost money.
-destroy-backend                Destroy S3 bucket and DynamoDB table
-destroy                        Destroy the things
-destroy-target                 Destroy a specific resource. Caution though, this destroys chained resources.
-plan-destroy                   Creates a destruction plan.
-plan                           Show what terraform thinks it will do
-plan-target                    Shows what a plan looks like for applying a specific resource
-prep                           Prepare a new workspace (environment) if needed, configure the tfstate backend, update any modules, and switch to the workspace
+# Initialise the backemd
+terraform init
+
+# Plan
+terraform plan -varfile=tfvars/prod_example_com.tfvars -out=prod_example_com.plan
+
+# Apply
+terraform apply -auto-approve prod_example_com.plan
 ```
